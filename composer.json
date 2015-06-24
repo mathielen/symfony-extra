@@ -1,0 +1,13 @@
+{
+	"name": "mathielen/symfony-extra",
+	"require": {
+		"php":	">=5.4"
+	},
+	"require-dev": {
+    },
+	"autoload": {
+		"psr-4": {
+			"Mathielen\\Symfony\\": "src/"
+		}
+	}
+}
