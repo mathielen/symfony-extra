@@ -1,11 +1,11 @@
 <?php
 namespace Mathielen\Symfony\Security\Firewall;
 
+use Mathielen\Symfony\Security\SessionValidatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Http\Firewall\ListenerInterface;
-use Mathielen\Symfony\Domain\Security\SessionManager;
 
 class TokenHeaderListener implements ListenerInterface
 {
@@ -13,13 +13,13 @@ class TokenHeaderListener implements ListenerInterface
     const HEADER = 'x-auth-token';
 
     /**
-     * @var SessionManager
+     * @var SessionValidatorInterface
      */
-    protected $sessionManager;
+    protected $sessionValidator;
 
-    public function __construct(SessionManager $sessionManager)
+    public function __construct(SessionValidatorInterface $sessionValidator)
     {
-        $this->sessionManager = $sessionManager;
+        $this->sessionValidator = $sessionValidator;
     }
 
     public static function isAnonymous(Request $request)
@@ -46,7 +46,7 @@ class TokenHeaderListener implements ListenerInterface
         if (empty($sessionId)) {
             return;
         }
-        if ($this->sessionManager->validateAndExtendTimeout($sessionId)) {
+        if ($this->sessionValidator->validate($sessionId)) {
             return;
         }
 

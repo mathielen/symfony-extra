@@ -1,7 +1,7 @@
 <?php
 namespace Mathielen\Symfony;
 
-use Infrastructure\Symfony2\Config\CumulativeResourceManager;
+use Mathielen\Symfony\Config\CumulativeResourceManager;
 use Symfony\Component\Config\ConfigCacheInterface;
 use Symfony\Component\Config\Resource\DirectoryResource;
 use Symfony\Component\Config\Resource\FileResource;

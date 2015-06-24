@@ -10,14 +10,14 @@ class TokenHeaderFactory implements SecurityFactoryInterface
 {
     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
     {
-        $providerId = 'security.authentication.provider.tokenheader.'.$id;
+        $providerId = 'mathielen.symfony.authentication.provider.tokenheader.'.$id;
         $container
-            ->setDefinition($providerId, new DefinitionDecorator('tokenheader.security.authentication.provider'))
+            ->setDefinition($providerId, new DefinitionDecorator('mathielen.symfony.security.authentication.provider'))
             ->replaceArgument(2, $id)
         ;
 
-        $listenerId = 'security.authentication.listener.tokenheader.'.$id;
-        $listener = $container->setDefinition($listenerId, new DefinitionDecorator('tokenheader.security.authentication.listener'));
+        $listenerId = 'mathielen.symfony.authentication.listener.tokenheader.'.$id;
+        $listener = $container->setDefinition($listenerId, new DefinitionDecorator('mathielen.symfony.security.authentication.listener'));
 
         return array($providerId, $listenerId, $defaultEntryPoint);
     }
