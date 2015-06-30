@@ -112,12 +112,13 @@ abstract class GlueKernel extends Kernel
                             return false;
                         }
 
-                        try {
+                        if (class_exists($classname)) {
                             $reflectionClass = new \ReflectionClass($classname);
                             if ($reflectionClass->implementsInterface('Symfony\Component\HttpKernel\Bundle\BundleInterface') &&
-                                !$reflectionClass->isAbstract()) {
+                                !$reflectionClass->isAbstract()
+                            ) {
                                 $constructor = $reflectionClass->getConstructor();
-                                $needsKernel = $constructor && $constructor->getNumberOfRequiredParameters()>0;
+                                $needsKernel = $constructor && $constructor->getNumberOfRequiredParameters() > 0;
                                 $priority = $this->getBundlePriority($reflectionClass);
 
                                 $classes[$classname] = [
@@ -126,8 +127,6 @@ abstract class GlueKernel extends Kernel
                                     'priority' => $priority
                                 ];
                             }
-                        } catch (\ReflectionException $e) {
-                            //skip
                         }
                     } elseif ($current->isDir()) {
                         return true;
