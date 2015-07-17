@@ -149,7 +149,7 @@ abstract class GlueKernel extends Kernel
         return $classes;
     }
 
-    private function getBundlePriority(\ReflectionClass $reflectionClass)
+    protected function getBundlePriority(\ReflectionClass $reflectionClass)
     {
         $prio = 0;
 
