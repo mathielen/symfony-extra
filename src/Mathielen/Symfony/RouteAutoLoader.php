@@ -15,13 +15,19 @@ class RouteAutoLoader extends YamlFileLoader
     protected $kernel;
 
     /**
+     * @var string
+     */
+    private $routeFileName;
+
+    /**
      *
      * @param FileLocatorInterface $locator
      */
-    public function __construct(FileLocatorInterface $locator, HttpKernelInterface $kernel)
+    public function __construct(FileLocatorInterface $locator, HttpKernelInterface $kernel, $routeFileName='routing.yml')
     {
         parent::__construct($locator);
 
+        $this->routeFileName = $routeFileName;
         $this->kernel = $kernel;
     }
 
@@ -30,7 +36,7 @@ class RouteAutoLoader extends YamlFileLoader
         $routes = new RouteCollection();
 
         foreach ($this->kernel->getBundles() as $bundle) {
-            $path = $bundle->getPath() . '/Resources/config/routing.yml';
+            $path = $bundle->getPath() . '/Resources/config/' . $this->routeFileName;
 
             if (is_file($path)) {
                 $routes->addCollection(parent::load($path, $type));
