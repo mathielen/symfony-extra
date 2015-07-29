@@ -1,7 +1,7 @@
 <?php
 namespace Mathielen\Symfony\Security\Authorization\Voter;
 
-use Mathielen\Symfony\Entity\Common\OwnedEntity;
+use Mathielen\Symfony\Entity\OwnedEntityInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -20,7 +20,7 @@ class OwnedEntityVoter implements VoterInterface
 
     public function vote(TokenInterface $token, $object, array $attributes)
     {
-        if ($object instanceof OwnedEntity) {
+        if ($object instanceof OwnedEntityInterface) {
             foreach ($token->getUser()->getCompanies() as $company) {
                 if ($object->isOwner($company)) {
                     return VoterInterface::ACCESS_GRANTED;
