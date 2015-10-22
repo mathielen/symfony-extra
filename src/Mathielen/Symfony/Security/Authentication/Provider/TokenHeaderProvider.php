@@ -1,6 +1,7 @@
 <?php
 namespace Mathielen\Symfony\Security\Authentication\Provider;
 
+use JMS\SecurityExtraBundle\Security\Authentication\Token\RunAsUserToken;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -48,16 +49,12 @@ class TokenHeaderProvider extends DaoAuthenticationProvider
         return parent::authenticate($token);
     }
 
-    private function authenticatePreAuth(TokenInterface $token)
+    private function authenticatePreAuth(PreAuthenticatedToken $token)
     {
         if (!$user = $token->getUser()) {
             throw new BadCredentialsException('No pre-authenticated principal found in request.');
         }
-        /*
-         if (null === $token->getCredentials()) {
-        throw new BadCredentialsException('No pre-authenticated credentials found in request.');
-        }
-        */
+
         if (is_string($user)) {
             $user = $this->userProvider->loadUserByUsername($user);
         }
