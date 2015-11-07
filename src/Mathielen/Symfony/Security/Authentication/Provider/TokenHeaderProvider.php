@@ -1,7 +1,7 @@
 <?php
 namespace Mathielen\Symfony\Security\Authentication\Provider;
 
-use JMS\SecurityExtraBundle\Security\Authentication\Token\RunAsUserToken;
+use Mathielen\Symfony\Security\Token\ConsoleAuthToken;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -42,6 +42,12 @@ class TokenHeaderProvider extends DaoAuthenticationProvider
             return null;
         }
 
+        //no need to fetch any user
+        if ($token instanceof ConsoleAuthToken) {
+            return $token;
+        }
+
+        //fetch user from name
         if ($token instanceof PreAuthenticatedToken) {
             return $this->authenticatePreAuth($token);
         }
@@ -49,6 +55,12 @@ class TokenHeaderProvider extends DaoAuthenticationProvider
         return parent::authenticate($token);
     }
 
+    /**
+     * converts a string given user to a full user object
+     *
+     * @param  PreAuthenticatedToken $token
+     * @return PreAuthenticatedToken
+     */
     private function authenticatePreAuth(PreAuthenticatedToken $token)
     {
         if (!$user = $token->getUser()) {
