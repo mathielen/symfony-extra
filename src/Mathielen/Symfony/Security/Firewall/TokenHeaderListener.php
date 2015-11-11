@@ -1,6 +1,7 @@
 <?php
 namespace Mathielen\Symfony\Security\Firewall;
 
+use Infrastructure\Exception\UnauthorizedException;
 use Mathielen\Symfony\Security\SessionValidatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,7 +52,7 @@ class TokenHeaderListener implements ListenerInterface
         }
 
         // By default deny authorization
-        $response = new Response(null, 403);
+        $response = new Response(null, 401); //401, not 403
         $event->setResponse($response);
     }
 }
