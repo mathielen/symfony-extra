@@ -253,26 +253,6 @@ abstract class GlueKernel extends Kernel
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function dumpContainer(ConfigCache $cache, ContainerBuilder $container, $class, $baseClass)
-    {
-        // cache the container
-        $dumper = new PhpDumper($container);
-
-        if (class_exists('ProxyManager\Configuration')) {
-            $dumper->setProxyDumper(new ProxyDumper());
-        }
-
-        $content = $dumper->dump(['class' => $class, 'base_class' => $baseClass]);
-        $cache->write($content, $container->getResources());
-
-        if (!$this->debug) {
-            $cache->write(php_strip_whitespace($cache), $container->getResources());
-        }
-    }
-
-    /**
      * Add custom error handler
      */
     protected function initializeContainer()
