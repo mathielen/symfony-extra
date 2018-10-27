@@ -44,7 +44,7 @@ class TokenHeaderListener implements ListenerInterface
             $sessionId = $request->query->get(self::HEADER);
         }
 
-        if (empty($sessionId)) {
+        if (empty($sessionId) || $sessionId === 'false') {
             return;
         }
         if ($this->sessionValidator->validate($sessionId)) {
